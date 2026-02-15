@@ -1,0 +1,43 @@
+›   Warning: Could not find typescript. Please ensure that typescript is a devDependency. Falling back to compiled source.
+(node:24431) [ERR_REQUIRE_ASYNC_MODULE] Warning: Error
+module: @oclif/core@4.8.0
+task: findCommand (qdx:package)
+plugin: qdx-plugin
+root: /Users/qamarislam/dev/qdx-plugin
+code: ERR_REQUIRE_ASYNC_MODULE
+message: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+  From /Users/qamarislam/dev/qdx-plugin/src/commands/qdx/package.ts 
+  Requiring /Users/qamarislam/dev/qdx-plugin/node_modules/@salesforce/sf-plugins-core/lib/exported.js 
+See more details with DEBUG=*
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24431) [ERR_REQUIRE_ASYNC_MODULE] Warning: Error
+module: @oclif/core@4.8.0
+task: findCommand (qdx:snippet)
+plugin: qdx-plugin
+root: /Users/qamarislam/dev/qdx-plugin
+code: ERR_REQUIRE_ASYNC_MODULE
+message: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+  From /Users/qamarislam/dev/qdx-plugin/src/commands/qdx/snippet.ts 
+  Requiring /Users/qamarislam/dev/qdx-plugin/node_modules/@salesforce/sf-plugins-core/lib/exported.js 
+See more details with DEBUG=*
+(node:24431) [ERR_REQUIRE_ASYNC_MODULE] Warning: Error
+module: @oclif/core@4.8.0
+task: findCommand (qdx:package)
+plugin: qdx-plugin
+root: /Users/qamarislam/dev/qdx-plugin
+code: ERR_REQUIRE_ASYNC_MODULE
+message: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+  From /Users/qamarislam/dev/qdx-plugin/lib/commands/qdx/package.js 
+  Requiring /Users/qamarislam/dev/qdx-plugin/node_modules/@salesforce/sf-plugins-core/lib/exported.js 
+See more details with DEBUG=*
+(node:24431) [ERR_REQUIRE_ASYNC_MODULE] Warning: Error
+module: @oclif/core@4.8.0
+task: findCommand (qdx:snippet)
+plugin: qdx-plugin
+root: /Users/qamarislam/dev/qdx-plugin
+code: ERR_REQUIRE_ASYNC_MODULE
+message: require() cannot be used on an ESM graph with top-level await. Use import() instead. To see where the top-level await comes from, use --experimental-print-required-tla.
+  From /Users/qamarislam/dev/qdx-plugin/lib/commands/qdx/snippet.js 
+  Requiring /Users/qamarislam/dev/qdx-plugin/node_modules/@salesforce/sf-plugins-core/lib/exported.js 
+See more details with DEBUG=*
+@salesforce/cli: Linking plugin .... done

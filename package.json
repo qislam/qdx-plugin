@@ -1,0 +1,73 @@
+{
+  "name": "qdx-plugin",
+  "description": "Salesforce CLI plugin for deployments",
+  "version": "1.0.0",
+  "author": "Qamar Islam @qislam",
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": {
+    "qdx-plugin": "./bin/run.js"
+  },
+  "repository": "qislam/qdx-plugin",
+  "bugs": "https://github.com/qislam/qdx-plugin/issues",
+  "homepage": "https://github.com/qislam/qdx-plugin",
+  "dependencies": {
+    "@oclif/core": "^4.2.8",
+    "@salesforce/core": "^8.8.5",
+    "@salesforce/sf-plugins-core": "^12.2.0",
+    "csvjson": "^5.1.0",
+    "debug": "^4.4.0",
+    "lodash": "^4.17.21",
+    "xml-js": "^1.6.11",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@salesforce/cli-plugins-testkit": "^5.3.39",
+    "@salesforce/dev-config": "^4.3.1",
+    "@types/debug": "^4.1.12",
+    "@types/lodash": "^4.17.16",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.17.16",
+    "chai": "^4.5.0",
+    "mocha": "^10.8.2",
+    "nyc": "^17.1.0",
+    "oclif": "^4.17.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/messages",
+    "/oclif.manifest.json"
+  ],
+  "keywords": [
+    "sfdx-plugin",
+    "sf-plugin"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "sf",
+    "topicSeparator": " ",
+    "topics": {
+      "qdx": {
+        "description": "Commands for building and deploying Salesforce packages."
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p . && cp src/utils/metadata.json lib/utils/metadata.json",
+    "clean": "rm -rf lib",
+    "compile": "tsc -p . && cp src/utils/metadata.json lib/utils/metadata.json",
+    "lint": "eslint src --ext .ts",
+    "postpack": "rm -f oclif.manifest.json",
+    "prepack": "npm run clean && npm run compile && oclif manifest",
+    "test": "nyc mocha \"test/**/*.test.ts\" --timeout 10000",
+    "prepare": "npm run compile"
+  }
+}
