@@ -9,7 +9,7 @@ $ npm install -g qdx-plugin
 $ sf COMMAND
 running command...
 $ sf (--version)
-qdx-plugin/1.0.1 darwin-arm64 node-v20.12.2
+qdx-plugin/1.0.2 darwin-arm64 node-v20.12.2
 $ sf --help [COMMAND]
 USAGE
   $ sf COMMAND
@@ -78,7 +78,7 @@ EXAMPLES
   $ sf qdx package myPackage --deploy -u myorg@example.com
 ```
 
-_See code: [src/commands/qdx/package.ts](https://github.com/qislam/qdx-plugin/blob/v1.0.1/src/commands/qdx/package.ts)_
+_See code: [src/commands/qdx/package.ts](https://github.com/qislam/qdx-plugin/blob/v1.0.2/src/commands/qdx/package.ts)_
 
 ## `sf qdx snippet`
 
@@ -105,5 +105,5 @@ EXAMPLES
   $ sf qdx snippet -a mySnippet -p src/myFile.cls
 ```
 
-_See code: [src/commands/qdx/snippet.ts](https://github.com/qislam/qdx-plugin/blob/v1.0.1/src/commands/qdx/snippet.ts)_
+_See code: [src/commands/qdx/snippet.ts](https://github.com/qislam/qdx-plugin/blob/v1.0.2/src/commands/qdx/snippet.ts)_
 <!-- commandsstop -->
