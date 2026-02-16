@@ -67,7 +67,7 @@
     "compile": "tsc -p . && shx cp src/utils/metadata.json lib/utils/metadata.json",
     "lint": "eslint src --ext .ts",
     "postpack": "shx rm -f oclif.manifest.json",
-    "prepack": "npm run clean && npm run compile && oclif manifest",
+    "prepack": "npm run clean && npm run compile && oclif manifest && oclif readme",
     "test": "nyc mocha \"test/**/*.test.ts\" --timeout 10000",
     "prepare": "npm run compile"
   }
