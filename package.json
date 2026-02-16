@@ -34,6 +34,7 @@
     "mocha": "^10.8.2",
     "nyc": "^17.1.0",
     "oclif": "^4.17.5",
+    "shx": "^0.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
@@ -61,11 +62,11 @@
     }
   },
   "scripts": {
-    "build": "tsc -p . && cp src/utils/metadata.json lib/utils/metadata.json",
-    "clean": "rm -rf lib",
-    "compile": "tsc -p . && cp src/utils/metadata.json lib/utils/metadata.json",
+    "build": "tsc -p . && shx cp src/utils/metadata.json lib/utils/metadata.json",
+    "clean": "shx rm -rf lib",
+    "compile": "tsc -p . && shx cp src/utils/metadata.json lib/utils/metadata.json",
     "lint": "eslint src --ext .ts",
-    "postpack": "rm -f oclif.manifest.json",
+    "postpack": "shx rm -f oclif.manifest.json",
     "prepack": "npm run clean && npm run compile && oclif manifest",
     "test": "nyc mocha \"test/**/*.test.ts\" --timeout 10000",
     "prepare": "npm run compile"
