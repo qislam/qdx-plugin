@@ -9,7 +9,7 @@ $ npm install -g qdx-plugin
 $ sf COMMAND
 running command...
 $ sf (--version)
-qdx-plugin/1.0.2 darwin-arm64 node-v20.12.2
+qdx-plugin/1.1.0 darwin-arm64 node-v20.12.2
 $ sf --help [COMMAND]
 USAGE
   $ sf COMMAND
@@ -18,8 +18,49 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`sf qdx migrate`](#sf-qdx-migrate)
 * [`sf qdx package PACKAGENAME [COMMIT1] [COMMIT2]`](#sf-qdx-package-packagename-commit1-commit2)
 * [`sf qdx snippet`](#sf-qdx-snippet)
+
+## `sf qdx migrate`
+
+Migrate data from one org to another based on a migration plan.
+
+```
+USAGE
+  $ sf qdx migrate [--json] [--flags-dir <value>] [-d <value>] [-f <value>] [--sample] [-s <value>] [-n <value>]
+    [--clear-data-folder] [--clear-ref-folder]
+
+FLAGS
+  -d, --destination=<value>  Destination org username or alias.
+  -f, --file=<value>         Path of migration plan file. Must be relative to cwd and in unix format.
+  -n, --name=<value>         Name of the step to execute.
+  -s, --source=<value>       Source org username or alias.
+      --clear-data-folder    Clear the data folder before processing.
+      --clear-ref-folder     Clear the reference folder before processing.
+      --sample               Copy sample migration plan files to current directory.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Migrate data from one org to another based on a migration plan.
+
+  Migrate data from one org to another based on a migration plan.
+
+ALIASES
+  $ sf qdx migrate
+
+EXAMPLES
+  $ sf qdx migrate --source prod --destination dev --file migrationPlan.js
+
+  $ sf qdx migrate --sample
+
+  $ sf qdx migrate --name Demo_Step_1 --source prod --destination dev
+```
+
+_See code: [src/commands/qdx/migrate.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/migrate.ts)_
 
 ## `sf qdx package PACKAGENAME [COMMIT1] [COMMIT2]`
 
@@ -78,7 +119,7 @@ EXAMPLES
   $ sf qdx package myPackage --deploy -u myorg@example.com
 ```
 
-_See code: [src/commands/qdx/package.ts](https://github.com/qislam/qdx-plugin/blob/v1.0.2/src/commands/qdx/package.ts)_
+_See code: [src/commands/qdx/package.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/package.ts)_
 
 ## `sf qdx snippet`
 
@@ -105,5 +146,5 @@ EXAMPLES
   $ sf qdx snippet -a mySnippet -p src/myFile.cls
 ```
 
-_See code: [src/commands/qdx/snippet.ts](https://github.com/qislam/qdx-plugin/blob/v1.0.2/src/commands/qdx/snippet.ts)_
+_See code: [src/commands/qdx/snippet.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/snippet.ts)_
 <!-- commandsstop -->
