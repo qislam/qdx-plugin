@@ -5,4 +5,8 @@ oclif.manifest.json
 .nyc_output/
 coverage/
 .vscode/
-
+.claude/
+.claude-logs/
+.agents/
+bin/
+messages/
