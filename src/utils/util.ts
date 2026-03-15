@@ -1,6 +1,8 @@
 import * as path from 'node:path';
 import * as fs from 'node:fs';
+import _ from 'lodash';
 import { dxOptions, looseObject, migrationStep } from './interfaces.js';
+import { type YamlBody } from './convert.js';
 
 const sfdx = await import('sfdx-node');
 
@@ -148,6 +150,17 @@ export function prepJsonForCsv(line: looseObject): looseObject {
     }
   }
   return line;
+}
+
+export function deduplicateAndSort(yamlBody: YamlBody): void {
+  for (const key in yamlBody) {
+    if (key === 'ManualSteps' || key === 'Version') continue;
+    const arr = yamlBody[key];
+    if (Array.isArray(arr)) {
+      yamlBody[key] = _.uniqWith(arr, _.isEqual);
+      (yamlBody[key] as string[]).sort();
+    }
+  }
 }
 
 export function setStepReferences(step: migrationStep, basePath: string): migrationStep {

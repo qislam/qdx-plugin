@@ -6,6 +6,11 @@
   },
   "include": [
     "**/*.ts",
-    "../src/**/*.ts"
-  ]
+    "../src/**/*.ts",
+    "../src/types/**/*.d.ts"
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": true
+  }
 }

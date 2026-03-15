@@ -7,11 +7,9 @@ import Debug from 'debug';
 import YAML from 'yaml';
 import * as csvjson from 'csvjson';
 import xmljs from 'xml-js';
-import _ from 'lodash';
-
 import { updateYaml } from '../../utils/metadata-coverage.js';
 import { yaml2xml, type YamlBody } from '../../utils/convert.js';
-import { getAbsolutePath, getFiles, getTimeStamp } from '../../utils/util.js';
+import { getAbsolutePath, getFiles, getTimeStamp, deduplicateAndSort } from '../../utils/util.js';
 
 const debug = Debug('qdx-plugin');
 
@@ -103,6 +101,9 @@ sf qdx package [packageName] --start`;
     full: Flags.boolean({
       summary: 'Set to true to get a complete list of all metadata available.',
     }),
+    feature: Flags.boolean({
+      summary: 'Output package to manifest/feature/ directory for feature-based management.',
+    }),
     installedpackage: Flags.boolean({
       hidden: true,
     }),
@@ -125,7 +126,8 @@ sf qdx package [packageName] --start`;
     debug('flags: ' + JSON.stringify(flags, null, 4));
     this.spinner.start('Started on package ' + packageName);
 
-    const yamlPath = `manifest/${packageName.replace('/', '-')}.yml`;
+    const manifestDir = flags.feature ? 'manifest/feature' : 'manifest';
+    const yamlPath = `${manifestDir}/${packageName.replace('/', '-')}.yml`;
     const projectpath: string = flagProjectpath ?? '.';
     debug('projectpath: ' + projectpath);
     let apiVersion: string = flagVersion ?? '65.0';
@@ -145,9 +147,9 @@ sf qdx package [packageName] --start`;
 
     if (flags.start || !fs.existsSync(yamlPath)) {
       this.log(getTimeStamp() + '\tSetting up new package. STARTED');
-      if (!fs.existsSync('manifest')) {
-        debug('Creating manifest dir');
-        fs.mkdirSync('manifest');
+      if (!fs.existsSync(manifestDir)) {
+        debug('Creating manifest dir: ' + manifestDir);
+        fs.mkdirSync(manifestDir, { recursive: true });
       }
       debug('Starting blank package YAML file.');
       fs.writeFileSync(yamlPath, YAML.stringify({ Version: apiVersion }), { encoding: 'utf-8' });
@@ -348,16 +350,7 @@ sf qdx package [packageName] --start`;
     }
 
     this.log(getTimeStamp() + '\tSorting yaml. STARTED');
-
-    for (const key in yamlBody) {
-      if (key === 'ManualSteps' || key === 'Version') continue;
-      const arr = yamlBody[key];
-      if (Array.isArray(arr)) {
-        yamlBody[key] = _.uniqWith(arr, _.isEqual);
-        (yamlBody[key] as string[]).sort();
-      }
-    }
-
+    deduplicateAndSort(yamlBody);
     this.log(getTimeStamp() + '\tSorting yaml. COMPLETED');
 
     debug('yamlBody: ' + JSON.stringify(yamlBody, null, 4));

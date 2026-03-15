@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { yaml2xml } from '../../../src/utils/convert.js';
-import { getAbsolutePath, getTimeStamp } from '../../../src/utils/util.js';
+import { getAbsolutePath, getTimeStamp, deduplicateAndSort } from '../../../src/utils/util.js';
 
 describe('qdx package utilities', () => {
   describe('yaml2xml', () => {
@@ -55,6 +55,30 @@ describe('qdx package utilities', () => {
     it('should return a formatted timestamp', () => {
       const result = getTimeStamp();
       expect(result).to.match(/\d{1,2}:\d{2}:\d{2}\.\d{3}/);
+    });
+  });
+
+  describe('deduplicateAndSort', () => {
+    it('should remove duplicates and sort arrays', () => {
+      const yamlBody = {
+        ApexClass: ['Zebra', 'Alpha', 'Alpha', 'Beta'],
+        CustomField: ['Account.Name', 'Account.Name', 'Contact.Email'],
+      };
+      deduplicateAndSort(yamlBody);
+      expect(yamlBody.ApexClass).to.deep.equal(['Alpha', 'Beta', 'Zebra']);
+      expect(yamlBody.CustomField).to.deep.equal(['Account.Name', 'Contact.Email']);
+    });
+
+    it('should skip ManualSteps and Version keys', () => {
+      const yamlBody: Record<string, string[] | string> = {
+        Version: '65.0',
+        ManualSteps: ['step1', 'step1'],
+        ApexClass: ['B', 'A'],
+      };
+      deduplicateAndSort(yamlBody);
+      expect(yamlBody.Version).to.equal('65.0');
+      expect(yamlBody.ManualSteps).to.deep.equal(['step1', 'step1']);
+      expect(yamlBody.ApexClass).to.deep.equal(['A', 'B']);
     });
   });
 });

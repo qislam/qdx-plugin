@@ -76,7 +76,7 @@
     "lint": "eslint src --ext .ts",
     "postpack": "shx rm -f oclif.manifest.json",
     "prepack": "npm run clean && npm run compile && oclif manifest && oclif readme",
-    "test": "nyc mocha \"test/**/*.test.ts\" --timeout 10000",
+    "test": "TS_NODE_PROJECT=test/tsconfig.json nyc mocha \"test/**/*.test.ts\" --timeout 10000",
     "prepare": "npm run compile"
   }
 }
