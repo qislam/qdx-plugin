@@ -4,3 +4,5 @@ oclif.manifest.json
 *.tgz
 .nyc_output/
 coverage/
+.vscode/
+

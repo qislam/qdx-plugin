@@ -128,7 +128,7 @@ sf qdx package [packageName] --start`;
     const yamlPath = `manifest/${packageName.replace('/', '-')}.yml`;
     const projectpath: string = flagProjectpath ?? '.';
     debug('projectpath: ' + projectpath);
-    let apiVersion: string = flagVersion ?? '53.0';
+    let apiVersion: string = flagVersion ?? '65.0';
 
     const objectSubtypes = [
       'CustomField',

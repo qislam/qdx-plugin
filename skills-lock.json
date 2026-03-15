@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "markdown-documentation": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "bebe932f4f94560dd90ae7534f2a8731edb70a3ca33f96ad8127cb1de4464780"
+    },
+    "mermaid-diagrams": {
+      "source": "softaworks/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "6d36e69adad781f106a2fb4b19ebc22bf0c211babdc0d1ae5822fa65abb48bd8"
+    },
+    "openapi-spec-generation": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "8f7638e66dfc477e490ebd6e3199ee2bd2bbbce568e75124a2d578f75187906b"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "126f1ebf6ccd414f42544f6e83d8cc5adb089e1108eaffb7c400701e37eecd9f"
+    }
+  }
+}
