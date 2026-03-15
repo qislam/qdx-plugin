@@ -9,7 +9,7 @@ $ npm install -g qdx-plugin
 $ sf COMMAND
 running command...
 $ sf (--version)
-qdx-plugin/1.1.0 darwin-arm64 node-v24.14.0
+qdx-plugin/1.2.0 darwin-arm64 node-v24.14.0
 $ sf --help [COMMAND]
 USAGE
   $ sf COMMAND
@@ -61,7 +61,7 @@ EXAMPLES
   $ sf qdx migrate --name Demo_Step_1 --source prod --destination dev
 ```
 
-_See code: [src/commands/qdx/migrate.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/migrate.ts)_
+_See code: [src/commands/qdx/migrate.ts](https://github.com/qislam/qdx-plugin/blob/v1.2.0/src/commands/qdx/migrate.ts)_
 
 ## `sf qdx package PACKAGENAME [COMMIT1] [COMMIT2]`
 
@@ -121,7 +121,7 @@ EXAMPLES
   $ sf qdx package myPackage --deploy -u myorg@example.com
 ```
 
-_See code: [src/commands/qdx/package.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/package.ts)_
+_See code: [src/commands/qdx/package.ts](https://github.com/qislam/qdx-plugin/blob/v1.2.0/src/commands/qdx/package.ts)_
 
 ## `sf qdx release RELEASENAME`
 
@@ -158,7 +158,7 @@ EXAMPLES
   $ sf qdx release sprint-42 --remove login-flow
 ```
 
-_See code: [src/commands/qdx/release.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/release.ts)_
+_See code: [src/commands/qdx/release.ts](https://github.com/qislam/qdx-plugin/blob/v1.2.0/src/commands/qdx/release.ts)_
 
 ## `sf qdx snippet`
 
@@ -185,5 +185,5 @@ EXAMPLES
   $ sf qdx snippet -a mySnippet -p src/myFile.cls
 ```
 
-_See code: [src/commands/qdx/snippet.ts](https://github.com/qislam/qdx-plugin/blob/v1.1.0/src/commands/qdx/snippet.ts)_
+_See code: [src/commands/qdx/snippet.ts](https://github.com/qislam/qdx-plugin/blob/v1.2.0/src/commands/qdx/snippet.ts)_
 <!-- commandsstop -->
