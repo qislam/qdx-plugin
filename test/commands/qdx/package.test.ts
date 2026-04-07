@@ -30,6 +30,106 @@ describe('qdx package utilities', () => {
       expect(typesElement.elements![0].elements![0].text).to.equal('*');
     });
 
+    it('should not emit a types block for the Exclusions key itself', () => {
+      const yamlBody = {
+        ApexClass: ['Foo'],
+        Exclusions: { CustomObject: [] },
+      };
+      const result = yaml2xml(yamlBody, '53.0');
+      const typesBlocks = result.elements[0].elements!.filter((e) => e.name === 'types');
+      expect(
+        typesBlocks.some((t) =>
+          t.elements!.some((c) => c.name === 'name' && c.elements![0].text === 'Exclusions'),
+        ),
+      ).to.be.false;
+    });
+
+    it('should drop an entire types block when wildcard-excluded via empty array', () => {
+      const yamlBody = {
+        ApexClass: ['Foo', 'Bar'],
+        CustomObject: ['Account__c'],
+        Exclusions: { ApexClass: [] },
+      };
+      const result = yaml2xml(yamlBody, '53.0');
+      const typesBlocks = result.elements[0].elements!.filter((e) => e.name === 'types');
+      const names = typesBlocks.map(
+        (t) => t.elements!.find((c) => c.name === 'name')!.elements![0].text,
+      );
+      expect(names).to.deep.equal(['CustomObject']);
+    });
+
+    it('should drop an entire types block when excluded via "*" string', () => {
+      const yamlBody = {
+        CustomObject: ['Account__c'],
+        ApexClass: ['Foo'],
+        Exclusions: { CustomObject: '*' },
+      };
+      const result = yaml2xml(yamlBody, '53.0');
+      const typesBlocks = result.elements[0].elements!.filter((e) => e.name === 'types');
+      const names = typesBlocks.map(
+        (t) => t.elements!.find((c) => c.name === 'name')!.elements![0].text,
+      );
+      expect(names).to.deep.equal(['ApexClass']);
+    });
+
+    it('should remove only specific named members when listed under Exclusions', () => {
+      const yamlBody = {
+        ApexClass: ['Foo', 'Bar', 'Baz'],
+        Exclusions: { ApexClass: ['Bar'] },
+      };
+      const result = yaml2xml(yamlBody, '53.0');
+      const apexTypes = result.elements[0].elements!.find(
+        (e) =>
+          e.name === 'types' &&
+          e.elements!.some((c) => c.name === 'name' && c.elements![0].text === 'ApexClass'),
+      )!;
+      const memberTexts = apexTypes
+        .elements!.filter((c) => c.name === 'members')
+        .map((c) => c.elements![0].text);
+      expect(memberTexts).to.deep.equal(['Foo', 'Baz']);
+    });
+
+    it('should collapse a types block when all listed members are excluded', () => {
+      const yamlBody = {
+        ApexClass: ['Foo'],
+        CustomObject: ['Account__c'],
+        Exclusions: { ApexClass: ['Foo'] },
+      };
+      const result = yaml2xml(yamlBody, '53.0');
+      const typesBlocks = result.elements[0].elements!.filter((e) => e.name === 'types');
+      const names = typesBlocks.map(
+        (t) => t.elements!.find((c) => c.name === 'name')!.elements![0].text,
+      );
+      expect(names).to.deep.equal(['CustomObject']);
+    });
+
+    it('should ignore exclusion members not present in the source list', () => {
+      const yamlBody = {
+        ApexClass: ['Foo'],
+        Exclusions: { ApexClass: ['Nonexistent'] },
+      };
+      const result = yaml2xml(yamlBody, '53.0');
+      const apexTypes = result.elements[0].elements!.find(
+        (e) =>
+          e.name === 'types' &&
+          e.elements!.some((c) => c.name === 'name' && c.elements![0].text === 'ApexClass'),
+      )!;
+      const memberTexts = apexTypes
+        .elements!.filter((c) => c.name === 'members')
+        .map((c) => c.elements![0].text);
+      expect(memberTexts).to.deep.equal(['Foo']);
+    });
+
+    it('should produce output identical to prior behavior when Exclusions is absent', () => {
+      const yamlBody = { ApexClass: ['Foo', 'Bar'] };
+      const result = yaml2xml(yamlBody, '53.0');
+      const apexTypes = result.elements[0].elements!.find((e) => e.name === 'types')!;
+      const memberTexts = apexTypes
+        .elements!.filter((c) => c.name === 'members')
+        .map((c) => c.elements![0].text);
+      expect(memberTexts).to.deep.equal(['Foo', 'Bar']);
+    });
+
     it('should skip ManualSteps and Version keys', () => {
       const yamlBody = {
         Version: '53.0',

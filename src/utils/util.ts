@@ -154,7 +154,7 @@ export function prepJsonForCsv(line: looseObject): looseObject {
 
 export function deduplicateAndSort(yamlBody: YamlBody): void {
   for (const key in yamlBody) {
-    if (key === 'ManualSteps' || key === 'Version') continue;
+    if (key === 'ManualSteps' || key === 'Version' || key === 'Exclusions') continue;
     const arr = yamlBody[key];
     if (Array.isArray(arr)) {
       yamlBody[key] = _.uniqWith(arr, _.isEqual);

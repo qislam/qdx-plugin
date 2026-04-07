@@ -116,6 +116,7 @@ Releases merge feature packages into a single manifest for deployment.`;
       const featureYaml = YAML.parse(fs.readFileSync(featureYamlPath, 'utf-8')) as YamlBody;
       for (const key in featureYaml) {
         if (!{}.hasOwnProperty.call(featureYaml, key)) continue;
+        if (key === 'Exclusions') continue;
         if (key === 'Version') {
           apiVersion = featureYaml[key] as string;
           mergedYaml[key] = apiVersion;

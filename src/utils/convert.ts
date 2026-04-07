@@ -13,9 +13,26 @@ export interface XmlDocument {
   elements: XmlElement[];
 }
 
-export type YamlBody = Record<string, string[] | string>;
+export type ExclusionsMap = Record<string, string[] | string>;
+export type YamlBody = Record<string, string[] | string | ExclusionsMap>;
 
 export function yaml2xml(featureYAML: YamlBody, xmlVersion: string): XmlDocument {
+  // Build exclusions map: metadata type -> 'all' (whole type excluded) or Set of member names
+  const exclusions = new Map<string, 'all' | Set<string>>();
+  const exclusionsRaw = featureYAML.Exclusions as ExclusionsMap | undefined;
+  if (exclusionsRaw && typeof exclusionsRaw === 'object' && !Array.isArray(exclusionsRaw)) {
+    for (const type in exclusionsRaw) {
+      const value = exclusionsRaw[type];
+      if (value === '*' || (Array.isArray(value) && value.length === 0)) {
+        exclusions.set(type, 'all');
+      } else if (Array.isArray(value)) {
+        exclusions.set(type, new Set(value));
+      } else if (typeof value === 'string') {
+        exclusions.set(type, new Set([value]));
+      }
+    }
+  }
+
   const featureXML: XmlDocument = {
     declaration: {
       attributes: {
@@ -36,14 +53,27 @@ export function yaml2xml(featureYAML: YamlBody, xmlVersion: string): XmlDocument
   };
 
   for (const metadataType in featureYAML) {
-    if (metadataType === 'ManualSteps' || metadataType === 'Version') continue;
+    if (metadataType === 'ManualSteps' || metadataType === 'Version' || metadataType === 'Exclusions') continue;
+    const exclusion = exclusions.get(metadataType);
+    if (exclusion === 'all') continue;
+
     const typesElement: XmlElement = {
       type: 'element',
       name: 'types',
       elements: [],
     };
 
-    const members = featureYAML[metadataType];
+    const rawMembers = featureYAML[metadataType] as string[] | string;
+    const members =
+      Array.isArray(rawMembers) && exclusion instanceof Set
+        ? rawMembers.filter((m) => !exclusion.has(m))
+        : rawMembers;
+
+    if (Array.isArray(rawMembers) && exclusion instanceof Set && (members as string[]).length === 0) {
+      // All listed members were excluded — skip emitting this types block entirely
+      continue;
+    }
+
     if (Array.isArray(members) && members.length > 0) {
       for (const metadataName of members) {
         typesElement.elements!.push({
