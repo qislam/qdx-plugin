@@ -2,7 +2,7 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import Debug from 'debug';
-import * as csvjson from 'csvjson';
+import csvjson from 'csvjson';
 import _ from 'lodash';
 import moment from 'moment';
 import sha1 from 'js-sha1';
@@ -121,7 +121,10 @@ export class QdxMigrateCommand extends SfCommand<MigrateResult> {
       }
     }
 
-    const migrationPlan = await import(getAbsolutePath(file));
+    const importedPlan = await import(getAbsolutePath(file));
+    // CommonJS plans (module.exports = plan) and ESM `export default` are both
+    // wrapped under `default` by dynamic import(); unwrap to reach `steps` etc.
+    const migrationPlan = importedPlan.steps ? importedPlan : importedPlan.default;
     this.log('Migration plan loaded.');
 
     const globalVars: looseObject = {

@@ -7,6 +7,7 @@ import { looseObject } from './interfaces.js';
 import randomatic from 'randomatic';
 
 const random: looseObject = {
+  randomize: randomatic,
   find(names: string[]) {
     return names[~~(Math.random() * names.length)].split(' ').map(this.capitalize).join(' ');
   },

@@ -10,3 +10,4 @@ coverage/
 .agents/
 bin/
 messages/
+.temp/
